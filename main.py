@@ -11,6 +11,7 @@ async def read_root():
 
 @app.get("/funcaoteste")
 async def funcaoteste():
+    #return {"teste": "Deu certo"}
     return {"Hello": True, "num_aleatorio": random.randint(0, 1000)}  # Correção na chamada do randint
 
 
