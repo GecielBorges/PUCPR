@@ -5,11 +5,11 @@ import random  # Importação correta do módulo random
 
 app = FastAPI()
 
-@app.get("/")
+@app.get("/helloword")
 async def read_root():
     return {"Hello": "World"}
 
-@app.get("/teste")
+@app.get("/funcaoteste")
 async def funcaoteste():
     #return {"teste": "Deu certo"}
     return {"Hello": True, "num_aleatorio": random.randint(0, 1000)}  # Correção na chamada do randint
