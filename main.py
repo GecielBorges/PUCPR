@@ -9,9 +9,9 @@ app = FastAPI()
 async def read_root():
     return {"Hello": "World"}
 
-@app.get("/teste1")
+@app.get("/teste")
 async def funcaoteste():
-    return {"teste": "Deu certo"}
+    #return {"teste": "Deu certo"}
     return {"Hello": True, "num_aleatorio": random.randint(0, 1000)}  # Correção na chamada do randint
 
 
