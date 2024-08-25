@@ -1,18 +1,23 @@
-name: Continuous Integration 
+name: Continuous Delivery
 # run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: 
-    pull_request:
+    push:
     branches:
-        - main
+        - main # ou qualquer outra branch
 jobs:
- Build:
+ delivery:
     runs-on: ubuntu-latest
     steps:
       
       - name: Check out repository code
         uses: actions/checkout@v4
         
-     - name: Python Lint Code Scanning Action
-    uses: advanced-security/python-lint-code-scanning-action@v1.1.1
-    with:
-        linter: pylint
+        - name: Simulando Continuous Delivery 
+        uses: actions/upload-artifact@v4
+        with:
+          name: projetozipado.zip
+          path: |
+          '**.py'
+          README.md
+
+
