@@ -1,23 +1,52 @@
-#FastAPI é um biblioteca que permite criar APIs de forma rápida e simples. 
-# API: interface de comunicação entre plataformas.  
-from fastapi import FastAPI
+from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
 import random  # Importação correta do módulo random
 
 app = FastAPI()
 
-@app.get("/helloword")
+# Simulando um banco de dados em memória com um dicionário
+banco_de_dados = {}
+
+# Modelo de dados para o Estudante
+class Estudante(BaseModel):
+    nome: str
+    curso: str
+    ativo: bool
+
+@app.get("/helloworld")
 async def read_root():
     return {"Hello": "World"}
 
 @app.get("/funcaoteste")
 async def funcaoteste():
-    #return {"teste": "Deu certo"}
-    return {"Hello": True, "num_aleatorio": random.randint(0, 1000)}  # Correção na chamada do randint
+    return {"Hello": True, "num_aleatorio": random.randint(0, 1000)}
 
+# Criar um novo estudante (CREATE)
+@app.post("/estudantes/cadastro")
+async def create_estudante(estudante: Estudante):
+    id_estudante = random.randint(1000, 9999)  # Gerar um ID aleatório
+    banco_de_dados[id_estudante] = estudante
+    return {"id": id_estudante, "estudante": estudante}
 
-#Para rodar o FastAPI com um servidor ASGI (como o uvicorn),
-#você também pode instalar o seguinte: 
-# pip install uvicorn
-#ver diretório em que vc está pwd
-#uvicorn main:app --reload
+# Atualizar um estudante existente (UPDATE)
+@app.put("/estudantes/update/{id_estudante}")
+async def update_estudante(id_estudante: int, estudante: Estudante):
+    if id_estudante in banco_de_dados:
+        banco_de_dados[id_estudante] = estudante
+        return {"id": id_estudante, "estudante": estudante}
+    else:
+        raise HTTPException(status_code=404, detail="Estudante não encontrado")
 
+# Deletar um estudante (DELETE)
+@app.delete("/estudantes/delete/{id_estudante}")
+async def delete_estudante(id_estudante: int):
+    if id_estudante in banco_de_dados:
+        del banco_de_dados[id_estudante]
+        return {"msg": f"Estudante com id {id_estudante} foi deletado com sucesso"}
+    else:
+        raise HTTPException(status_code=404, detail="Estudante não encontrado")
+
+# Listar todos os estudantes (READ)
+@app.get("/estudantes")
+async def list_estudantes():
+    return banco_de_dados
