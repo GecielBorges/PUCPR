@@ -42,3 +42,4 @@ jobs:
           context: ${{ env.DOCKERFILE_DIR }}  # Usa o caminho encontrado para o contexto
           load: true
           tags: user/app:latest
+#localizar
