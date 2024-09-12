@@ -3,7 +3,7 @@ name: Continuous Integration
 on: 
   pull_request:
     branches:
-      - main  # Define a branch que disparará a ação no pull request
+      - main
 
 jobs:
   Build:
@@ -11,39 +11,34 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-        # Confere o código do repositório
-
+        
       - name: Python Lint Code Scanning
         uses: advanced-security/python-lint-code-scanning-action@v1.1.1
         with:
           linter: pylint
-        # Verifica o código Python com o linter pylint
 
   Docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v4
-        # Confere o código do repositório novamente, caso necessário para o build Docker
+
+      - name: Find Dockerfile
+        run: ./find_dockerfile.sh
+        # Executa o script para encontrar o Dockerfile e exportar o caminho
+
+      - name: List directory contents
+        run: ls -R  # Opcional: ajuda a verificar a estrutura de diretórios
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-        # Configura suporte para builds multi-plataforma
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        # Configura Docker Buildx para construir imagens de forma mais eficiente
-
-      # Descomente as linhas abaixo se você quiser fazer login no Docker Hub ou outro repositório
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and load Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./PUCPR  # Certifique-se de que o caminho está correto
-          load: true         # Carrega a imagem no Docker local
-          tags: user/app:latest  # Define a tag da imagem (personalize conforme necessário)
+          context: ${{ env.DOCKERFILE_DIR }}  # Usa o caminho encontrado para o contexto
+          load: true
+          tags: user/app:latest
