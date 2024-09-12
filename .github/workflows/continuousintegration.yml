@@ -20,11 +20,15 @@ jobs:
   Docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository code
         uses: actions/checkout@v4
         
+      - name: List directory contents
+        run: ls -R  # Adiciona uma etapa para listar a estrutura de diretórios
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-        
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        
