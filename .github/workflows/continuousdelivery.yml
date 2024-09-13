@@ -56,6 +56,5 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./PUPR # Certifique-se de que este caminho está correto
-          push: true  # Mudar para true se quiser fazer push para um repositório Docker
+          context: .
           tags: user/app:latest
