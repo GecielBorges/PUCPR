@@ -25,7 +25,7 @@ async def funcaoteste():
 # Criar um novo estudante (CREATE)
 @app.post("/estudantes/cadastro")
 async def create_estudante(estudante: Estudante):
-    id_estudante = random.randint(1000, 9999)  # Gerar um ID aleatório
+    id_estudante = random.randint(1000, 15000)  # Gerar um ID aleatório
     banco_de_dados[id_estudante] = estudante
     return {"id": id_estudante, "estudante": estudante}
 
