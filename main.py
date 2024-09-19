@@ -20,7 +20,7 @@ async def read_root():
 
 @app.get("/funcaoteste")
 async def funcaoteste():
-    return {"Hello": True, "num_aleatorio": random.randint(0, 2000)}
+    return {"Hello": True, "num_aleatorio": random.randint(0, 20010)}
 
 # Criar um novo estudante (CREATE)
 @app.post("/estudantes/cadastro")
