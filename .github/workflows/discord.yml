@@ -1,14 +1,16 @@
-name: discord
+name: Discord
+
 on:
-    - push
-Jobs:
-    discord:
+  push:
+
+jobs:
+  discord:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-        
-      - name: Run discord Webhook
+      - uses: actions/checkout@v4
+
+      - name: Run Discord Webhook
         uses: Sniddl/discord-commits@v1.6
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
