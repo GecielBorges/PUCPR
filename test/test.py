@@ -2,6 +2,8 @@ from src.main import *
 from unittest.mock import patch
 import random
 
+@pytest.mark.asyncio
+
 def test_root():
     assert read_root() == {"Hello": "World"}
 
