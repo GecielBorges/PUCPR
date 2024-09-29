@@ -41,10 +41,14 @@ async def test_update_estudante_positivo():
 # Teste para deletar um estudante com ID válido
 @pytest.mark.asyncio
 async def test_delete_estudante_positivo():
-    banco_de_dados[5] = Estudante(nome="Fulano", curso="Curso 1", ativo=True)  # Adiciona um estudante
-    result = await delete_estudante(5)  # Aguarda a função
-    assert result is None  # Deletar retorna None
-    assert 5 not in banco_de_dados  # Verifica se o estudante foi removido do banco de dados
+    # Inserindo um estudante no banco de dados para ser deletado
+    banco_de_dados[1] = {"nome": "João", "idade": 20}
+    # Tentando deletar o estudante com ID 1
+    resultado = await delete_estudante(1)
+    # Verificando se a mensagem de sucesso é retornada
+    assert resultado == {"msg": "Estudante deletado com sucesso"}
+    # Verificando se o estudante foi removido do banco de dados
+    assert 1 not in banco_de_dados
 
 # Teste para deletar um estudante com ID inválido
 @pytest.mark.asyncio
