@@ -39,8 +39,14 @@ async def update_estudante(id_estudante: int, estudante: Estudante):
         raise HTTPException(status_code=404, detail="Estudante não encontrado")
 
 # Deletar um estudante (DELETE)
-@app.delete("/estudantes/delete/{id_estudante}")
-async def delete_estudante(id_estudante: int):
-    if id_estudante in banco_de_dados:
-        del banco_de_dados[id_estudante]
+
+async def delete_estudante(estudante_id: int):
+    # Verifica se o ID está no banco de dados
+    if estudante_id not in banco_de_dados:
+        # Levanta uma exceção HTTP 404 se o estudante não for encontrado
+        raise HTTPException(status_code=404, detail="Estudante não encontrado")
+    
+    # Remove o estudante do banco de dados
+    del banco_de_dados[estudante_id]
+    return {"msg": "Estudante deletado com sucesso"}
         

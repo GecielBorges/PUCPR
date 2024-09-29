@@ -49,8 +49,15 @@ async def test_delete_estudante_positivo():
 # Teste para deletar um estudante com ID inválido
 @pytest.mark.asyncio
 async def test_delete_estudante_negativo():
-    with patch("src.main.banco_de_dados", {}):  # Simula um banco de dados vazio
-        # Verifica se a exceção HTTP 404 é lançada quando o estudante não é encontrado
-        with pytest.raises(HTTPException) as exc_info:
-            await delete_estudante(9999)  # Aguarda a função
-        assert exc_info.value.status_code == 404  # Verifica se o código de status é 404
+    # Garantindo que o banco de dados está vazio
+    banco_de_dados.clear()  # Limpa o banco de dados
+
+    # Testando a função para um estudante que não existe
+    with pytest.raises(HTTPException) as exc_info:
+        await delete_estudante(9999)  # Aguarda a função para um ID inexistente
+    
+    # Verificando se o código de status da exceção é 404
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "Estudante não encontrado"
+
+
