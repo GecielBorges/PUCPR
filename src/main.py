@@ -43,4 +43,6 @@ async def update_estudante(id_estudante: int, estudante: Estudante):
 async def delete_estudante(id_estudante: int):
     if id_estudante in banco_de_dados:
         del banco_de_dados[id_estudante]
-        
+        return {"detail": f"Estudante com id {id_estudante} deletado com sucesso"}
+    else:
+        raise HTTPException(status_code=404, detail="Estudante não encontrado")

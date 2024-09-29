@@ -1,8 +1,9 @@
 from src.main import *
 from unittest.mock import patch
+import pytest
 import random
-
-@pytest.mark.asyncio
+from fastapi import HTTPException
+#@pytest.mark.asyncio
 
 def test_root():
     assert read_root() == {"Hello": "World"}
@@ -30,10 +31,8 @@ def test_delete_estudante_positivo():
     assert 5 not in banco_de_dados  
 
 def test_delete_estudante_negativo():
-    
     with patch("src.main.banco_de_dados", {}): 
-        try:
-            delete_estudante(9999)  
-        except HTTPException as e:
-            assert e.status_code == 404 
+        with pytest.raises(HTTPException) as exc_info:
+            delete_estudante(9999)
+        assert exc_info.value.status_code == 404
 
